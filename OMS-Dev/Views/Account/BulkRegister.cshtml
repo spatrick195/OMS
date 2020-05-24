@@ -1,0 +1,35 @@
+﻿@model OMS_Dev.Models.BulkRegister
+
+@using (Html.BeginForm("BulkRegister", "Account", FormMethod.Post, new { @class = "my-1", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <h2 class="my-2 p-md-2">Register Users</h2>
+    </div>
+    <div class="row">
+        <p class="my-2 p-md-2">User Count: <span class="count">1</span></p>
+    </div>
+    <div class="users-to-register">
+        <div class="userContainer row">
+            <div class="form-group mx-1">
+                <label for="Email">Email</label>
+                <input id="Email" type="email" name="UserToRegister[0].Email" class="form-control" placeholder="Email" />
+            </div>
+            <div class="form-group mx-1">
+                <label for="Password">Password</label>
+                <input id="Password" type="password" name="UserToRegister[0].Password" class="form-control" placeholder="Password" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @Html.ValidationSummary("", new { @class = "text-danger m-auto" })
+        <button type="button" class="btn btn-info mr-1 my-2" id="add-user-button" style="margin-top: 38px; width: 50px;"><i class="fas fa-plus"></i></button>
+        <button type="submit" class="btn btn-info my-2">Submit</button>
+        <a class="btn btn-warning my-2 ml-1" href="/Home" type="button">Back</a>
+    </div>
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/scripts.js")
+}

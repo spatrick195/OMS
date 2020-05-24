@@ -1,0 +1,66 @@
+﻿@model OMS_Dev.Models.EmployeeListViewModel
+
+@{
+    ViewBag.Title = "Register Employees";
+}
+
+@using (Html.BeginForm("RegisterEmployees", "Employee", FormMethod.Post, new { @class = "my-1", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <h2 class="my-2 p-md-2">Register Your Employees</h2>
+    </div>
+    <div class="row">
+        <p class="count my-2 p-md-2">1</p>
+    </div>
+    <div class="users-to-register">
+        <div class="userContainer row">
+            <div class="form-group mx-1">
+                <label for="Email">Email</label>
+                <input id="Email" type="email" name="UsersToRegister[0].Username" class="form-control" placeholder="Email" />
+            </div>
+            <div class="form-group mx-1">
+                <label for="Password">Password</label>
+                <input id="Password" type="password" name="UsersToRegister[0].Password" class="form-control" placeholder="Password" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @Html.ValidationSummary("", new { @class = "text-danger m-auto" })
+        <button type="button" class="btn btn-info mr-1 my-2" id="add-user-button" style="margin-top: 37.5px; width: 50px;"><i class="fas fa-plus"></i></button>
+        <button type="submit" class="btn btn-info my-2">Submit</button>
+        <a type="button" class="btn btn-warning my-2 ml-1" href="/Home">Back</a>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            $('#add-user-button').click(function () {
+                // how many users are there already
+                var userCount = $('.userContainer').length + 1;
+
+                // this count is used for the index for the next user container
+                var nextIndex = userCount;
+                var html =
+                    '<div class="userContainer row">' +
+                    '<div class="form-group mx-1">' +
+                    '<label for="email">Email</label>' +
+                    '<input id="email" type="text" name="UsersToRegister[' + nextIndex + '].Email"  class="form-control" placeholder="Email" />' +
+                    '</div>' +
+                    '<div class="form-group mx-1">' +
+                    '<label for="password">Password</label>' +
+                    '<input id="password" type="password" name="UsersToRegister[' + nextIndex + '].Password"  class="form-control" placeholder="Password" />' +
+                    '</div>' +
+                    '</div>';
+                // append the html
+                $('.count').text(userCount);
+                $('.users-to-register').append(html);
+            });
+        });
+    </script>
+}

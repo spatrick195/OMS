@@ -1,0 +1,99 @@
+﻿@model OMS_Dev.Models.EmployeeListViewModel
+
+@{
+    ViewBag.Title = "Register Employee";
+}
+
+<div class="container my-3">
+    <div class="row">
+        <h4>Step 1: Create a new account.</h4>
+    </div>
+    <div class="row">
+        <p>Number of employees: <span class="counter my-5">1</span></p>
+    </div>
+</div>
+
+@using (Html.BeginForm("RegisterEmployee", "Account", FormMethod.Post, new { @class = "form-horizontal container my-1" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="form-group mx-1">
+            @Html.Label("Name", new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.UsersToRegister[0].Name, new { @class = "form-control", placeholder = "Name" })
+        </div>
+        <div class="form-group mx-1">
+            @Html.Label("Email", new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.UsersToRegister[0].Email, new { @class = "form-control", placeholder = "Email" })
+        </div>
+        <div class="form-group mx-1">
+            @Html.Label("Role", new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.UsersToRegister[0].Role, new { @class = "form-control", placeholder = "Role" })
+        </div>
+        <div class="form-group mx-1">
+            @Html.Label("Password", new { @class = "control-label" })
+            @Html.TextBoxFor(m => m.UsersToRegister[0].Password, new { @class = "form-control", placeholder = "Password" })
+        </div>
+        <button type="button" class="btn btn-sm btn-info add_button form-control" style="margin-top: 37.5px; width: 50px;"><i class="fas fa-plus"></i></button>
+    </div>
+
+    <div class="field_wrapper"></div>
+
+    <div class="row">
+        <button type="submit" class="btn btn-info my-2">Submit</button>
+        <a type="button" class="btn btn-warning my-2 ml-1" href="/Home">Back</a>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            var max_fields = 10; //maximum input boxes allowed - change as needed
+            var wrapper = $(".field_wrapper");
+            var add_button = $(".add_button");
+
+            @*@for(var i = 1; i < 10; i++)
+            {
+                <div class="form-group row">
+                   <div class="form-group mx-1">
+                       @Html.Label("Name", new { @class = "control-label" })
+                       @Html.TextBoxFor(m => m.UsersToRegister[i].Name, new { @class = "form-control", placeholder = "Name" })
+                   </div>
+                      @Html.Label("Email", new { @class = "control-label
+                   <div class="form-group mx-1">" })
+                      @Html.TextBoxFor(m => m.UsersToRegister[i].Email, new { @class = "form-control", placeholder = "Email" })
+                   </div>
+                   <div class="form-group mx-1">
+                      @Html.Label("Role", new { @class = "control-label" })
+                      @Html.TextBoxFor(m => m.UsersToRegister[i].Role, new { @class = "form-control", placeholder = "Role" })
+                   </div>
+                   <div class="form-group mx-1">
+                      @Html.Label("Password", new { @class = "control-label" })
+                      @Html.TextBoxFor(m => m.UsersToRegister[i].Password, new { @class = "form-control", placeholder = "Password" })
+                   </div>
+                   <button type="button" class="btn btn-sm btn-danger form-control remove_button" style="margin-top: 37.5px; width: 50px;"><i class="fas fa-times center"></i></button>
+                </div>
+          }*@
+            var x = 1; //initlal count
+
+            $(add_button).click(function (e) { //on add button click
+                e.preventDefault();
+                if (x < max_fields) { //max input box allowed or you can remove if statement to remove of limit
+                    x++; // increment value of x
+                    $('.counter').text(x);
+                    $(wrapper).append(html).fadeIn(2000); //add html
+                }
+            });
+
+            $(wrapper).on("click", ".remove_button", function (e) { //user click on remove text
+                e.preventDefault();
+                x--;
+                $(this).parent('div').fadeOut(200);
+                $('.counter').text(x);
+            })
+            var html =
+                "<div class='form-group row'><fieldset class='form-group mx-1'><label class='control-label' for='Name'>Name</label><input name='Model.UsersToRegister["+x+"].Name' class='form-control' data-val='true' data-val-email='The Name field is not valid.' data-val-required='The Name field is required.' id='Name' placeholder='Name' type='text' value=''></fieldset><fieldset class='form-group mx-1'><label class='control-label' for='Email'>Email</label><input name='Model.UsersToRegister["+x+"].Email' class='form-control' data-val='true' data-val-email='The Email field is not a valid e-mail address.' data-val-required='The Email field is required.' id='Email' placeholder='Email' type='Email' value=''></fieldset><fieldset class='form-group mx-1'><label class='control-label' for='Role'>Roles</label><input name='Model.UsersToRegister["+x+"].Role' class='form-control' data-val='true' data-val-email='The User Role field is not valid.' data-val-required='The Role field is required.' id='Role' placeholder='Role' type='text' value=''></fieldset><fieldset class='form-group mx-1'><label class='control-label' for='Password'>Password</label><input name='Model.UsersToRegister["+x+"].Password' class='form-control' data-val='true' data-val-length='The Password must be at least 6 characters long.' data-val-length-max='100' data-val-length-min='6' data-val-required='The Password field is required.' id='Password'  placeholder='Password' type='text' value=''></fieldset><button type='button' class='btn btn-sm btn-danger form-control remove_button' style='margin-top: 37.5px; width: 50px;'><i class='fas fa-times center'></i></button></div>";
+
+        });
+    </script>
+}

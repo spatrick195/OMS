@@ -1,0 +1,23 @@
+﻿@if (Request.IsAuthenticated)
+{
+
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-nav ml-auto" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle bg-gray circle" href="#" id="navbartoggleuser" data-toggle="dropdown"><i class="fa fa-fw fa-user"></i></a>
+            <div class="dropdown-menu">
+                @Html.ActionLink("Manage Account", "Index", "Manage", new { area = "" }, htmlAttributes: new { @class = "dropdown-item" })
+                <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            </div>
+        </li>
+    }
+}
+else
+{
+    <div class="navbar-nav ml-auto">
+        @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { @class = "nav-item nav-link", id = "loginLink" })
+        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { @class = "nav-item nav-link", id = "registerLink" })
+    </div>
+}

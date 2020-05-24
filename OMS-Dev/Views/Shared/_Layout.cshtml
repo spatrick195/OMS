@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>@ViewBag.Title - OMS</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            @Html.ActionLink("OMS", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navLinks" aria-controls="navLinks" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navLinks">
+                <div class="navbar-nav">
+                    @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-item nav-link" })
+                    @Html.ActionLink("Business", "Index", "Business", new { area = "" }, new { @class = "nav-item nav-link" })
+                    @Html.ActionLink("Employees", "Index", "Employee", new { area = "" }, new { @class = "nav-item nav-link" })
+                    @Html.ActionLink("Industry", "Index", "Industries", new { area = "" }, new { @class = "nav-item nav-link" })
+                    @Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-item nav-link" })
+                </div>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </nav>
+
+    <div class="body-content container">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - OMS</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
