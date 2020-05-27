@@ -7,7 +7,7 @@ using OMS_Dev.Entities;
 
 namespace OMS_Dev.Models
 {
-    public class EmployeeViewModel
+    public class BulkRegisterEmployee
     {
         public string Email { get; set; }
         public string Password { get; set; }
@@ -15,6 +15,6 @@ namespace OMS_Dev.Models
 
     public class EmployeeListViewModel
     {
-        public List<EmployeeViewModel> UsersToRegister { get; set; }
+        public List<BulkRegisterEmployee> EmployeeToRegister { get; set; }
     }
 }

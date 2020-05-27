@@ -84,7 +84,7 @@ namespace OMS_Dev.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    //user.IP = Request.UserHostAddress;
+                    user.LastLogin = DateTime.Now;
                     return RedirectToLocal(returnUrl);
 
                 case SignInStatus.LockedOut:
@@ -188,26 +188,10 @@ namespace OMS_Dev.Controllers
         {
             if (ModelState.IsValid)
             {
-                for (int i = 0; i < model.UserToRegister.Count(); i++)
-                {
-                    var user = new ApplicationUser { UserName = model.UserToRegister[i].Email, Email = model.UserToRegister[i].Email };
-                    var result = await UserManager.CreateAsync(user, model.UserToRegister[i].Password);
-
-                    if (!result.Succeeded)
-                    {
-                        break; // depends on you if you want to stop creating users if one failed
-                               // continue; // depends on you if you want to continue creating users if one failed
-                    }
-                    else if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                    AddErrors(result);
-                }
-                //foreach (var u in model.UserToRegister)
+                //for (int i = 0; i < model.UserToRegister.Count(); i++)
                 //{
-                //    var user = new ApplicationUser { UserName = u.Email, Email = u.Email };
-                //    var result = await UserManager.CreateAsync(user, u.Password);
+                //    var user = new ApplicationUser { UserName = model.UserToRegister[i].Email, Email = model.UserToRegister[i].Email };
+                //    var result = await UserManager.CreateAsync(user, model.UserToRegister[i].Password);
 
                 //    if (!result.Succeeded)
                 //    {
@@ -220,6 +204,19 @@ namespace OMS_Dev.Controllers
                 //    }
                 //    AddErrors(result);
                 //}
+                foreach (var u in model.UserToRegister)
+                {
+                    var user = new ApplicationUser { UserName = u.Email, Email = u.Email };
+                    var result = await UserManager.CreateAsync(user, u.Password);
+
+                    if (!result.Succeeded)
+                    {
+                        break; // depends on you if you want to stop creating users if one failed
+                               // continue; // depends on you if you want to continue creating users if one failed
+                    }
+                    AddErrors(result);
+                }
+                return RedirectToAction("Index", "Home");
             }
             // if statement condition not met
             return View(model);

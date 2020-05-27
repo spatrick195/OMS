@@ -768,7 +768,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Account\RegisterEmployee.cshtml" />
     <Content Include="Views\Business\Index.cshtml" />
     <Content Include="Views\Business\Create.cshtml" />
     <Content Include="Views\Industries\Create.cshtml" />
@@ -777,12 +776,8 @@
     <Content Include="Views\Industries\Edit.cshtml" />
     <Content Include="Views\Industries\Index.cshtml" />
     <Content Include="Views\Create.cshtml" />
-    <Content Include="Views\Employee\Create.cshtml" />
-    <Content Include="Views\Employee\Delete.cshtml" />
-    <Content Include="Views\Employee\Details.cshtml" />
-    <Content Include="Views\Employee\Edit.cshtml" />
-    <Content Include="Views\Employee\Index.cshtml" />
-    <Content Include="Views\Employee\RegisterEmployees.cshtml" />
+    <Content Include="Views\Employee\Register.cshtml" />
+    <Content Include="Views\Employee\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

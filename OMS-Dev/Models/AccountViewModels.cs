@@ -85,12 +85,12 @@ namespace OMS_Dev.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
-    
+
     public class BulkRegister
     {
         public List<UserToRegister> UserToRegister { get; set; }
     }
-    
+
     public class UserToRegister
     {
         [Required]

@@ -7,16 +7,12 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OMS_Dev.Entities;
 using OMS_Dev.Models;
-using System.Text.RegularExpressions;
-using HtmlAgilityPack;
-using Fizzler.Systems.HtmlAgilityPack;
 
 namespace OMS_Dev.Controllers
 {
@@ -26,6 +22,7 @@ namespace OMS_Dev.Controllers
         protected ApplicationDbContext db { get; set; }
         protected UserManager<Employee> EmployeeManager { get; set; }
         protected UserManager<ApplicationUser> UserManager { get; set; }
+        private EmployeeSignInManager _signInManager;
 
         public EmployeeController()
         {
@@ -34,12 +31,65 @@ namespace OMS_Dev.Controllers
             UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
         }
 
+        public EmployeeController(EmployeeSignInManager signInManager)
+        {
+            SignInManager = signInManager;
+        }
+
+        public EmployeeSignInManager SignInManager
+        {
+            get { return _signInManager ?? HttpContext.GetOwinContext().Get<EmployeeSignInManager>(); }
+            set { _signInManager = value; }
+        }
+
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult RegisterEmployees()
+        // GET: /Employee/Login
+        [AllowAnonymous]
+        public ActionResult Login(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
+        //
+        // POST: /Employee/Login
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var employee = await EmployeeManager.FindByNameAsync(model.Email);
+
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    employee.LastLogin = DateTime.Now;
+                    return RedirectToLocal(returnUrl);
+
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+
+                case SignInStatus.RequiresVerification:
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+
+                case SignInStatus.Failure:
+                default:
+                    ModelState.AddModelError("", "Invalid login attempt.");
+                    return View(model);
+            }
+        }
+
+        public ActionResult Register()
         {
             return View();
         }
@@ -47,35 +97,27 @@ namespace OMS_Dev.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RegisterEmployees(EmployeeListViewModel employees, Business business)
+        public async Task<ActionResult> Register(BulkRegister employees, Business business)
         {
             if (ModelState.IsValid)
             {
-                var successful = new List<string>();
-                var failed = new List<string>();
-                var errors = new List<string>();
-
                 var userId = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 business = userId.Business;
 
-                foreach (var employee in employees.UsersToRegister.ToList())
+                foreach (var e in employees.UserToRegister)
                 {
-                    var emp = new Employee { UserName = employee.Email, Email = employee.Email, Business = business, User = userId };
-                    var result = await EmployeeManager.CreateAsync(emp, employee.Password);
+                    var employee = new Employee { UserName = e.Email, Email = e.Email, Business = business, User = userId, RegisteredOn = DateTime.Now };
+                    var result = await EmployeeManager.CreateAsync(employee, e.Password);
+
                     if (!result.Succeeded)
                     {
-                        errors.AddRange(result.Errors);
                         break;
                     }
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                    // we would only reach here if something unusual occured
+
                     AddErrors(result);
                 }
+                return RedirectToAction("Index", "Home");
             }
-            // ModelState.IsValid was not true, something failed before it was reached
             return View(employees);
         }
 
@@ -92,6 +134,11 @@ namespace OMS_Dev.Controllers
                 {
                     EmployeeManager.Dispose();
                     EmployeeManager = null;
+                }
+                if (_signInManager != null)
+                {
+                    _signInManager.Dispose();
+                    _signInManager = null;
                 }
             }
             base.Dispose(disposing);

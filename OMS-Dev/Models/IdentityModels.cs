@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using OMS_Dev.Entities;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -19,6 +20,9 @@ namespace OMS_Dev.Models
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public DateTime? LastLogin { get; set; }
+        public DateTime? RegisteredOn { get; set; }
+
         public Business Business { get; set; }
         public virtual ICollection<Business> Businesses { get; set; }
 

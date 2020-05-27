@@ -1,0 +1,46 @@
+﻿@model OMS_Dev.Models.BulkRegister
+
+    <section>
+        <div class="row">
+            <h4 class="my-4">Step 3: Register Employees</h4>
+        </div>
+        <div class="progress row">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"></div>
+        </div>
+    </section>
+
+
+
+@using (Html.BeginForm("Register", "Employee", FormMethod.Post, new { @class = "my-1", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <p class="my-2 p-md-2">User Count: <span class="count">1</span></p>
+    </div>
+    <div class="users-to-register">
+        <div class="userContainer row">
+            <div class="form-group mx-1">
+                <label for="Email">Email</label>
+                <input id="Email" type="email" name="UserToRegister[0].Email" class="form-control" placeholder="Email" />
+            </div>
+            <div class="form-group mx-1">
+                <label for="Password">Password</label>
+                <input id="Password" type="password" name="UserToRegister[0].Password" class="form-control" placeholder="Password" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+    </div>
+    <div class="form-group row">
+        <button type="button" class="btn btn-success" id="add-user-button"><i class="fas fa-plus"></i></button>
+        <button type="submit" class="btn btn-info ml-1">Submit</button>
+        <a class="btn btn-warning ml-1" href="/Home" type="button">Back</a>
+    </div>
+
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/scripts.js")
+}
