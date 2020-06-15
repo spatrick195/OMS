@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OMS-Dev</name>
+    </assembly>
+    <members>
+        <member name="M:OMS_Dev.Controllers.BillingPlansController.SeedBillingPlans(PayPal.Api.APIContext)">
+            <summary>
+            Create the billing plans
+            </summary>
+        </member>
+        <member name="T:OMS_Dev.Extensions.IdentityExtensions">
+            <summary>
+            Extends the functionality of ASP.Net Identity Framework by returning custom user data.
+            </summary>
+        </member>
+        <member name="M:OMS_Dev.Extensions.IdentityExtensions.FirstName(System.Security.Principal.IIdentity)">
+            <summary>
+            Find the first name of a user and display it.
+            </summary>
+            <param name="identity"></param>
+            <returns>The first name of a user.</returns>
+        </member>
+        <member name="T:OMS_Dev.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:OMS_Dev.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:OMS_Dev.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+    </members>
+</doc>

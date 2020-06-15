@@ -1,0 +1,61 @@
+﻿@model OMS_Dev.Models.Subscription.IndexVm
+@{ ViewBag.Title = "Index"; }
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead class="table-active">
+                <tr>
+                    <th>Plan</th>
+                    <th>Description</th>
+                    <th class="text-right">Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Plans == null)
+                {
+                    <tr>
+                        <td>No plans exist.</td>
+                    </tr> 
+                }
+                else
+                {
+                    foreach (var item in Model.Plans)
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
+                            <td class="text-right">@item.Price</td>
+                            <td class="text-right">
+                                <a href="@Url.Action("Purchase", "Subscription", new { id = item.PayPalPlanId } )" class="btn btn-warning">Subscribe</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="paypal-button-container"></div>
+<script src="https://www.paypal.com/sdk/js?client-id=AYcEPKFPmFqKy4D5t1AoU6yTzSkB6mV6hr-RrEGqQhsSBSBgKltMH6ucmYCf4Tdul6qE2RioH9cJVVzY&vault=true" data-sdk-integration-source="button-factory"></script>
+<script>
+    paypal.Buttons({
+        style: {
+            shape: 'rect',
+            color: 'gold',
+            layout: 'vertical',
+            label: 'subscribe',
+
+        },
+        createSubscription: function (data, actions) {
+            return actions.subscription.create({
+                'plan_id': 'P-4PV26268V7918953BL3S3ZHA'
+            });
+        },
+        onApprove: function (data, actions) {
+            alert(data.subscriptionID);
+        }
+    }).render('#paypal-button-container');
+</script>

@@ -57,20 +57,22 @@ namespace OMS_Dev.Controllers
         // POST: Business/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id, Name, Phone, Address, Description, Incorporation, UserId")]Business Business)
+        public ActionResult Create([Bind(Include = "Id, Title, Phone, Address, Description, Incorporation, Industry, User")] Business Business)
         {
-            var currentUser = UserManager.FindById(User.Identity.GetUserId());
             try
             {
                 if (ModelState.IsValid)
                 {
+                    var currentUser = UserManager.FindById(User.Identity.GetUserId());
+                    ViewBag.IndustryId = new SelectList(db.Industries, "Id", "Title");
                     Business.User = currentUser;
+                    Business.User.UserName = currentUser.UserName;
+                    currentUser.Business = Business;
                     db.Businesses.Add(Business);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Register", "Employee");
                 }
-                ViewBag.IndustryId = new SelectList(db.Industries, "Id", "Title");
-                return View(Business);
+                return View();
             }
             catch (Exception)
             {

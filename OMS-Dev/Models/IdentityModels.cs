@@ -13,18 +13,12 @@ namespace OMS_Dev.Models
     // ASP.Net Identity 'Users' Table, add custom user fields here e.g. public string FirstName { get; set; }
     public class ApplicationUser : IdentityUser
     {
-        public ApplicationUser()
-        {
-            Businesses = new HashSet<Business>();
-        }
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? LastLogin { get; set; }
         public DateTime? RegisteredOn { get; set; }
-
         public Business Business { get; set; }
-        public virtual ICollection<Business> Businesses { get; set; }
+        public ICollection<Business> Businesses { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -62,5 +56,7 @@ namespace OMS_Dev.Models
         public DbSet<Business> Businesses { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Industry> Industries { get; set; }
+        public DbSet<Entities.Subscription> Subscriptions { get; set; }
+        public DbSet<WebhookEvent> WebhookEvents { get; set; }
     }
 }

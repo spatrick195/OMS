@@ -13,6 +13,7 @@ namespace OMS_Dev.Entities
 {
     public class Employee : IdentityUser
     {
+        public int EmployeeCount { get; set; }
         public DateTime? LastLogin { get; set; }
         public DateTime? RegisteredOn { get; set; }
         public Business Business { get; set; }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -97,16 +98,18 @@ namespace OMS_Dev.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(BulkRegister employees, Business business)
+        public async Task<ActionResult> Register(BulkRegister employees)
         {
             if (ModelState.IsValid)
             {
+                var empCount = employees.UserToRegister.Count();
                 var userId = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                business = userId.Business;
+                var business = userId.Business;
+                //db.Businesses.Where(x => x.User.Equals(userId)).FirstOrDefault();
 
                 foreach (var e in employees.UserToRegister)
                 {
-                    var employee = new Employee { UserName = e.Email, Email = e.Email, Business = business, User = userId, RegisteredOn = DateTime.Now };
+                    var employee = new Employee { UserName = e.Email, Email = e.Email, EmployeeCount = empCount, Business = business, User = userId, RegisteredOn = DateTime.Now };
                     var result = await EmployeeManager.CreateAsync(employee, e.Password);
 
                     if (!result.Succeeded)

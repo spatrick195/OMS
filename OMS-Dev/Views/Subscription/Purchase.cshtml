@@ -1,0 +1,78 @@
+﻿@model OMS_Dev.Models.Subscription.PurchaseVm
+
+@{ 
+    ViewBag.Title = "Purchase";
+}
+
+<div class="row m-auto">
+    <h2>Purchase</h2>
+    <div class="col-md-12">
+        <p>Start Subscription</p>
+    </div>
+</div>
+
+<div class="row">
+    @if (Request.IsAuthenticated)
+    {
+        <div class="col-md-8">
+            @using (Html.BeginForm("Purchase", "Subscription", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @*@Html.AntiForgeryToken()*@
+                @Html.HiddenFor(x => x.Plan.PayPalPlanId)
+                <h3>@Model.Plan.Name</h3>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.FirstName, new { @class = "control-label" } )
+                    @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", placeholder="First Name" })
+                    @Html.ValidationMessageFor(x => x.FirstName, "You need to provide your first name", new { @class= "form-control text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.LastName, new { @class = "control-label" })
+                    @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", placeholder = "Last Name" })
+                    @Html.ValidationMessageFor(x => x.LastName, "You need to provide your last name", new { @class = "form-control text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Email, new { @class = "control-label" })
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = "Email Address" })
+                    @Html.ValidationMessageFor(x => x.Email, "You need to provide your email address", new { @class = "form-control text-danger" })
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-warning">Pay $@((Model.Plan.Price)) with PayPal</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-4 pricing-table">
+            <table class="table table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th>
+                            Plan Name
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>Employees</th>
+                        <th>
+                            Description
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            @Model.Plan.Name
+                        </td>
+                        <td>
+                            <sup>$</sup>@((Model.Plan.Price).ToString())
+                        </td>
+                        <td>
+                            @Model.Plan.NumberOfEmployees
+                        </td>
+                        <td>@Model.Plan.Description</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }   
+</div>

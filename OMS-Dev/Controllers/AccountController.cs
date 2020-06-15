@@ -19,17 +19,31 @@ namespace OMS_Dev.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private ApplicationDbContext context;
+        private ApplicationDbContext _dbContext;
+
 
         public AccountController()
         {
-            context = new ApplicationDbContext();
+            _dbContext = new ApplicationDbContext();
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationDbContext dbContext)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            ApplicationDbContext = dbContext;
+        }
+
+        public ApplicationDbContext ApplicationDbContext
+        {
+            get 
+            { 
+                return _dbContext ?? HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+            }
+            private set
+            {
+                _dbContext = value;
+            }
         }
 
         public ApplicationSignInManager SignInManager
@@ -147,7 +161,6 @@ namespace OMS_Dev.Controllers
 
         //
         // GET: /Account/Register
-
         [AllowAnonymous]
         public ActionResult Register()
         {
@@ -163,13 +176,28 @@ namespace OMS_Dev.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    RegisteredOn = DateTime.Now
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await SignInManager.SignInAsync
+                        (
+                            user,
+                            isPersistent: false,
+                            rememberBrowser: false
+                        );
                     return RedirectToAction("Create", "Business");
                 }
+
                 AddErrors(result);
             }
 
@@ -183,27 +211,12 @@ namespace OMS_Dev.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> BulkRegister(BulkRegister model)
         {
             if (ModelState.IsValid)
             {
-                //for (int i = 0; i < model.UserToRegister.Count(); i++)
-                //{
-                //    var user = new ApplicationUser { UserName = model.UserToRegister[i].Email, Email = model.UserToRegister[i].Email };
-                //    var result = await UserManager.CreateAsync(user, model.UserToRegister[i].Password);
-
-                //    if (!result.Succeeded)
-                //    {
-                //        break; // depends on you if you want to stop creating users if one failed
-                //               // continue; // depends on you if you want to continue creating users if one failed
-                //    }
-                //    else if (result.Succeeded)
-                //    {
-                //        return RedirectToAction("Index", "Home");
-                //    }
-                //    AddErrors(result);
-                //}
                 foreach (var u in model.UserToRegister)
                 {
                     var user = new ApplicationUser { UserName = u.Email, Email = u.Email };
@@ -212,7 +225,7 @@ namespace OMS_Dev.Controllers
                     if (!result.Succeeded)
                     {
                         break; // depends on you if you want to stop creating users if one failed
-                               // continue; // depends on you if you want to continue creating users if one failed
+                               // continue; depends on you if you want to continue creating users if one failed
                     }
                     AddErrors(result);
                 }
@@ -471,6 +484,12 @@ namespace OMS_Dev.Controllers
                     _signInManager.Dispose();
                     _signInManager = null;
                 }
+
+                if(_dbContext != null)
+                {
+                    _dbContext.Dispose();
+                    _dbContext = null;
+                }
             }
 
             base.Dispose(disposing);
@@ -534,7 +553,6 @@ namespace OMS_Dev.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
-
         #endregion Helpers
     }
 }

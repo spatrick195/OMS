@@ -14,59 +14,60 @@ namespace OMS_Dev
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            createRolesandUsers();
+            //createRolesandUsers();
             // test code below
             //ApplicationDbContext context = new ApplicationDbContext();
             //var EmployeeManager = new UserManager<Employee>(new UserStore<Employee>(context));
             //var employee = new Employee();
             //EmployeeManager.AddToRole(employee.Id, "Employee");
+            
         }
 
-        private void createRolesandUsers()
-        {
-            ApplicationDbContext context = new ApplicationDbContext();
+        //private void createRolesandUsers()
+        //{
+        //    ApplicationDbContext context = new ApplicationDbContext();
 
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+        //    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+        //    var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
-            // creating first Admin Role and creating a default Admin User
-            if (!roleManager.RoleExists("Admin"))
-            {
-                // first we create Admin role
-                var role = new IdentityRole();
-                role.Name = "Admin";
-                roleManager.Create(role);
+        //    // creating first Admin Role and creating a default Admin User
+        //    if (!roleManager.RoleExists("Admin"))
+        //    {
+        //        // first we create Admin role
+        //        var role = new IdentityRole();
+        //        role.Name = "Admin";
+        //        roleManager.Create(role);
 
-                //Here we create a Admin user who will maintain the website
+        //        //Here we create a Admin user who will maintain the website
 
-                var user = new ApplicationUser();
-                user.Email = "jacobhallgarth2@gmail.com";
-                user.UserName = "jacobhallgarth2@gmail.com";
-                string password = "Jacob2713";
+        //        var user = new ApplicationUser();
+        //        user.Email = "xxxx";
+        //        user.UserName = "xxxx";
+        //        string password = "xxxxx";
 
-                var chkUser = UserManager.Create(user, password);
-                //Add default User to Role Admin
-                if (chkUser.Succeeded)
-                {
-                    _ = UserManager.AddToRole(user.Id, "Admin");
-                }
-            }
+        //        var chkUser = UserManager.Create(user, password);
+        //        //Add default User to Role Admin
+        //        if (chkUser.Succeeded)
+        //        {
+        //            _ = UserManager.AddToRole(user.Id, "Admin");
+        //        }
+        //    }
 
-            // creating Creating Manager role
-            if (!roleManager.RoleExists("Manager"))
-            {
-                var role = new IdentityRole();
-                role.Name = "Manager";
-                roleManager.Create(role);
-            }
+        //    // creating Creating Manager role
+        //    if (!roleManager.RoleExists("Manager"))
+        //    {
+        //        var role = new IdentityRole();
+        //        role.Name = "Manager";
+        //        roleManager.Create(role);
+        //    }
 
-            // creating Creating Employee role
-            if (!roleManager.RoleExists("Employee"))
-            {
-                var role = new IdentityRole();
-                role.Name = "Employee";
-                roleManager.Create(role);
-            }
-        }
+        //    // creating Creating Employee role
+        //    if (!roleManager.RoleExists("Employee"))
+        //    {
+        //        var role = new IdentityRole();
+        //        role.Name = "Employee";
+        //        roleManager.Create(role);
+        //    }
+        //}
     }
 }

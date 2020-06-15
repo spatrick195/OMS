@@ -22,7 +22,7 @@ namespace OMS_Dev
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrapflatly.min.css",
+                      "~/Content/bootstraplux.min.css",
                       "~/Content/fontawesome-free/css/all.css",
                       "~/Content/Site.css"));
         }
