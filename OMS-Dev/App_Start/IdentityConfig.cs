@@ -5,18 +5,33 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using OMS_Dev.Entities;
 using OMS_Dev.Models;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Configuration;
+using System.Diagnostics;
 
 namespace OMS_Dev
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            await SendGridEmailAsync(message);
+        }
+
+        public async Task SendGridEmailAsync(IdentityMessage message)
+        {
+            var client = new SendGridClient("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");
+            var from = new EmailAddress("test@example.com", "Example User");
+            var subject = "Sending with SendGrid is Fun";
+            var to = new EmailAddress("test@example.com", "Example User");
+            var plainTextContent = "and easy to do anywhere, even with C#";
+            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+            var response = await client.SendEmailAsync(msg);
         }
     }
 
@@ -106,7 +121,7 @@ namespace OMS_Dev
             // Configure validation logic for passwords
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 4,
+                RequiredLength = 3,
                 RequireNonLetterOrDigit = false,
                 RequireDigit = false,
                 RequireLowercase = false,
@@ -162,7 +177,6 @@ namespace OMS_Dev
     }
 
     // Configure the employee sign in manager which is used in this application
-
     public class EmployeeSignInManager : SignInManager<Employee, string>
     {
         public EmployeeSignInManager(ApplicationEmployeeManager userManager, IAuthenticationManager authenticationManager)

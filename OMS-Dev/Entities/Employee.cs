@@ -13,11 +13,11 @@ namespace OMS_Dev.Entities
 {
     public class Employee : IdentityUser
     {
-        public int EmployeeCount { get; set; }
+        public string OriginalUser { get; set; }
         public DateTime? LastLogin { get; set; }
         public DateTime? RegisteredOn { get; set; }
-        public Business Business { get; set; }
-        public ApplicationUser User { get; set; }
+        public virtual Business Business { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<Employee> manager)
         {

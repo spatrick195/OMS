@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using OMS_Dev.Entities;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using static OMS_Dev.Helpers.Enums;
 
 namespace OMS_Dev.Models
 {
@@ -80,10 +82,37 @@ namespace OMS_Dev.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "Phone Number")]
+        [DataType(DataType.PhoneNumber)]
+        public string PhoneNumber { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        public string Address { get; set; }
+
+        [DataType(DataType.Text)]
+        [Display(Name = "Address (apartment, flat number etc.)")]
+        public string Address2 { get; set; }
+
+        [Required]
+        [DataType(DataType.PostalCode)]
+        public string Zip { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        public string City { get; set; }
+
+        [Required]
+        public Province Province { get; set; }
+
+        public bool isSubscribed { get; set; }
     }
 
     public class BulkRegister
@@ -93,10 +122,8 @@ namespace OMS_Dev.Models
 
     public class UserToRegister
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Display(Name = "Username")]
+        public string UserName { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

@@ -1,0 +1,83 @@
+﻿@model OMS_Dev.Areas.Admin.Models.ProductDetailViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/Admin/Dashboard/Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="/Admin/Products/Index">Products</a></li>
+    <li class="breadcrumb-item active">@Html.DisplayTextFor(model => model.Id)</li>
+</ol>
+
+<div class="card mx-2">
+    <div class="card-header">
+        <i class="fa fa-list-alt"></i> Details for @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Id)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Active)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Active)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.StatementDescriptor)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.StatementDescriptor)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Created)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Created)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Updated)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Updated)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        @Html.ActionLink("Edit", "Edit", new { area = "Admin", id = Model.Id }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-dark" })
+    </div>
+</div>

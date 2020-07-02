@@ -1,11 +1,18 @@
-﻿namespace OMS_Dev.Migrations
-{
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using OMS_Dev.Models;
+using System;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Linq;
+using OMS_Dev.Helpers;
+using System.Web.Http.Results;
+using Microsoft.Ajax.Utilities;
+using Stripe;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<OMS_Dev.Models.ApplicationDbContext>
+namespace OMS_Dev.Migrations
+{
+    internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
     {
         public Configuration()
         {
@@ -13,12 +20,8 @@
             AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(OMS_Dev.Models.ApplicationDbContext context)
+        protected override void Seed(ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
-            //  to avoid creating duplicate seed data.
         }
     }
 }

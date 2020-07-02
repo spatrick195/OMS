@@ -10,6 +10,6 @@ namespace OMS_Dev.Entities
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public ICollection<Business> Businesses { get; set; }
+        public virtual ICollection<Business> Businesses { get; set; }
     }
 }

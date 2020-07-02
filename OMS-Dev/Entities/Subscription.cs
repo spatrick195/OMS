@@ -1,19 +1,23 @@
-﻿using System;
+﻿using OMS_Dev.Models;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using static OMS_Dev.Helpers.Enums;
 
 namespace OMS_Dev.Entities
 {
-    public class Subscription : BaseEntity
+    public class Subscription
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public DateTime? StartDate { get; set; }
-        public int NumberOfEmployees { get; set; }
-        public string PayPalPlanId { get; set; }
-        public string PayPalAgreementToken { get; set; }
-        public string PayPalAgreementId { get; set; }
+        [Key]
+        public string Id { get; set; }
+
+        public string AdminEmail { get; set; }
+
+        public string StripeCustomerId { get; set; }
+        public SubscriptionStatus Status { get; set; }
+
+        public string StatusDetail { get; set; }
     }
 }

@@ -2,8 +2,11 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using OMS_Dev.Entities;
+using OMS_Dev.Helpers;
 using OMS_Dev.Models;
 using Owin;
+using Stripe;
+using System;
 
 [assembly: OwinStartupAttribute(typeof(OMS_Dev.Startup))]
 
@@ -14,60 +17,72 @@ namespace OMS_Dev
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
-            //createRolesandUsers();
-            // test code below
-            //ApplicationDbContext context = new ApplicationDbContext();
-            //var EmployeeManager = new UserManager<Employee>(new UserStore<Employee>(context));
-            //var employee = new Employee();
-            //EmployeeManager.AddToRole(employee.Id, "Employee");
-            
+            CreateDefaultAdmin();
         }
 
-        //private void createRolesandUsers()
-        //{
-        //    ApplicationDbContext context = new ApplicationDbContext();
+        private async void CreateDefaultAdmin()
+        {
+            try
+            {
+                ApplicationDbContext dbContext = new ApplicationDbContext();
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(dbContext));
+                var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(dbContext));
+                var email = userManager.FindByEmail("AdminEmail");
 
-        //    var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-        //    var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                if (roleManager.RoleExists("Admin").Equals(false) || email.Equals(null))
+                {
+                    var roles = roleManager.RoleExists("NotSubscribed");
 
-        //    // creating first Admin Role and creating a default Admin User
-        //    if (!roleManager.RoleExists("Admin"))
-        //    {
-        //        // first we create Admin role
-        //        var role = new IdentityRole();
-        //        role.Name = "Admin";
-        //        roleManager.Create(role);
+                    if (!roles.Equals(true))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole("NotSubscribed"));
+                    }
+                    var options = new CustomerCreateOptions
+                    {
+                        Name = "AdminStripeName",
+                        Email = "AdminStripeEmail",
+                        Source = "tok_visa",
+                        Phone = "AdminStripePhone"
+                    };
 
-        //        //Here we create a Admin user who will maintain the website
+                    var custService = new CustomerService();
+                    var stripe = await custService.CreateAsync(options);
 
-        //        var user = new ApplicationUser();
-        //        user.Email = "xxxx";
-        //        user.UserName = "xxxx";
-        //        string password = "xxxxx";
+                    var user = new ApplicationUser
+                    {
+                        FirstName = "firstname",
+                        LastName = "lastname",
+                        UserName = "username",
+                        Email = "email",
+                        EmailConfirmed = true,
+                        StripeCustomerId = stripe.Id,
+                        Address = "address",
+                        Address2 = "addressline2",
+                        Zip = "postcode",
+                        City = "city",
+                        Province = Enums.Province.MWT,
+                        CardNumber = "4242424242424242",
+                        ExpMonth = Enums.Month.October,
+                        ExpYear = 2024,
+                        CardCvC = "232",
+                        PhoneNumber = "0226547685",
+                        PhoneNumberConfirmed = true,
+                        RegisteredOn = DateTime.Now,
+                    };
 
-        //        var chkUser = UserManager.Create(user, password);
-        //        //Add default User to Role Admin
-        //        if (chkUser.Succeeded)
-        //        {
-        //            _ = UserManager.AddToRole(user.Id, "Admin");
-        //        }
-        //    }
+                    var result = await userManager.CreateAsync(user, "Password123");
 
-        //    // creating Creating Manager role
-        //    if (!roleManager.RoleExists("Manager"))
-        //    {
-        //        var role = new IdentityRole();
-        //        role.Name = "Manager";
-        //        roleManager.Create(role);
-        //    }
-
-        //    // creating Creating Employee role
-        //    if (!roleManager.RoleExists("Employee"))
-        //    {
-        //        var role = new IdentityRole();
-        //        role.Name = "Employee";
-        //        roleManager.Create(role);
-        //    }
-        //}
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(user.Id, "Admin");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                var result = ex.Message + " " + ex.InnerException;
+                // log error in future
+            }
+        }
     }
 }

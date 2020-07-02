@@ -1,0 +1,24 @@
+﻿@model IEnumerable<OMS_Dev.Models.Employees.EmployeeListViewModel>
+@{
+    ViewBag.Title = "ManageEmployees";
+}
+
+<h2>Manage Employees</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(x => x.Id) </th>
+            <th>@Html.DisplayNameFor(x => x.UserName)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.Id</td>
+                <td>@employee.UserName</td>
+            </tr>
+        }
+    </tbody>
+</table>

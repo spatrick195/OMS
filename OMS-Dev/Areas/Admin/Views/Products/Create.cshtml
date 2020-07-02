@@ -1,0 +1,71 @@
+﻿@model OMS_Dev.Areas.Admin.Models.ProductCreateViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h1 class="my-4">Create Product</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/Admin/Dashboard/Dashboard">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="/Admin/Products/Index">Dashboard</a></li>
+    <li class="breadcrumb-item active">Create Product</li>
+</ol>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fa fa-plus-square"></i> Create Product
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Create", "Products", FormMethod.Post, new { @class = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-row">
+                <div class="form-group col">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label m-auto" })
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Name of the product", required = "yes" })
+                    <div class="invalid-feedback">
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "invalid-feedback" })
+                    </div>
+                </div>
+                <div class="form-group col">
+                    @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label m-auto" })
+                    @Html.DropDownList("Active", new SelectList(new[] { new { Value = true, Text = "Yes" }, new { Value = false, Text = "No" }, }, "Value", "Text", Model), new { @class = "form-control", required = "yes" })
+                    <div class="invalid-feedback">
+                        @Html.ValidationMessageFor(model => model.Active, "", new { @class = "invalid-feedback" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control col-md-12", rows = "3", placeholder = "Description of your product", required = "yes" })
+                    <div class="invalid-feedback">
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "invalid-feedback" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    @Html.LabelFor(model => model.StatementDescriptor, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.StatementDescriptor, new { htmlAttributes = new { @class = "form-control", placeholder = "Explains the charges or payments on bank statements", required = "yes" } })
+                    <div class="invalid-feedback">
+                        This field is required.
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-info" />
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+    <div class="card-footer">
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+    </div>
+</div>

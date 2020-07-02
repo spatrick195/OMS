@@ -3,47 +3,153 @@
     ViewBag.Title = "Register";
 }
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4 class="my-4">Step 1: Register your account.</h4>
-    <div class="progress">
-        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"></div>
-    </div>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "role" })) {
+@Html.AntiForgeryToken()
+<h4 class="my-4">Step 1 / 4: Register your account</h4>
+<div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"></div>
+</div>
+<br />
+<hr />
+<fieldset class="original_wrapper">
+
     <div class="form-row">
         <div class="form-group col">
-            @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+            <label class="control-label" for="Email"><i class="fa fa-envelope"></i> Email</label>
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control col-12", placeholder = "Email Address" })
+            @Html.ValidationMessageFor(m => m.Email, null, new { @class = "text-danger control-label" })
         </div>
         <div class="form-group col">
-            @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
+            <label class="control-label" for="FirstName"><i class="fa fa-user"></i> First Name</label>
             @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control col-12", placeholder = "First Name" })
+            @Html.ValidationMessageFor(m => m.FirstName, null, new { @class = "text-danger control-label" })
         </div>
         <div class="form-group col">
-            @Html.LabelFor(m => m.LastName, new { @class = "control-label" })
+            <label class="control-label" for="LastName"><i class="fa fa-user"></i> Last Name</label>
             @Html.TextBoxFor(m => m.LastName, new { @class = "form-control col-12", placeholder = "Last Name" })
+            @Html.ValidationMessageFor(m => m.LastName, null, new { @class = "text-danger control-label" })
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col">
-            @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+            <label class="control-label" for="Password"><i class="fa fa-lock"></i> Password</label>
             @Html.PasswordFor(m => m.Password, new { @class = "form-control col-12", placeholder = "Password" })
+            @Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger control-label" })
         </div>
         <div class="form-group col">
-            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
+            <label class="control-label" for="ConfirmPassword"><i class="fa fa-lock"></i> Confirm Password</label>
             @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control col-12", placeholder = "Confirm Password" })
+            @Html.ValidationMessageFor(m => m.ConfirmPassword, null, new { @class = "text-danger control-label" })
+        </div>
+        <div class="form-group col">
+            <label class="control-label" for="PhoneNumber"><i class="fa fa-mobile"></i> Contact Number</label>
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control col-12", placeholder = "Contact Number" })
+            @Html.ValidationMessageFor(m => m.PhoneNumber, null, new { @class = "text-danger control-label" })
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label class="control-label" for="Address"><i class="fa fa-address-card"></i> Address</label>
+            @Html.TextBoxFor(m => m.Address, new { @class = "form-control col-12", placeholder = "Street name and number" })
+            @Html.ValidationMessageFor(m => m.Address, null, new { @class = "text-danger control-label" })
+        </div>
+        <div class="form-group col">
+            <label class="control-label" for="Address2"><i class="fa fa-address-card"></i> Address Line 2</label>
+            @Html.TextBoxFor(m => m.Address2, new { @class = "form-control col-12", placeholder = "Apartment Number, Flat number e.g." })
+            @Html.ValidationMessageFor(m => m.Address2, null, new { @class = "text-danger control-label" })
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label class="control-label" for="Zip"><i class="fa fa-registered"></i> Zipcode</label>
+            @Html.TextBoxFor(x => x.Zip, new { @class = "form-control col-12", placeholder = "Postal Code" })
+            @Html.ValidationMessageFor(x => x.Zip, null, new { @class = "text-danger control-label" })
+        </div>
+        <div class="form-group col">
+            <label class="control-label" for="Province"><i class="fa fa-clipboard-list"></i> Province</label>
+            @Html.EnumDropDownListFor(x => x.Province, null, new { @class = "form-control col-12" })
+            @Html.ValidationMessageFor(x => x.Province, null, new { @class = "text-danger control-label" })
+        </div>
+        <div class="form-group col">
+            <label class="control-label" for="City"><i class="fa fa-city"></i> City</label>
+            @Html.TextBoxFor(x => x.City, new { @class = "form-control col-12", placeholder = "City" })
+            @Html.ValidationMessageFor(x => x.City, null, new { @class = "text-danger control-label" })
         </div>
     </div>
     <div class="form-row">
         <div class="form-group">
-            <input type="submit" class="btn btn-lg btn-info col-12 w-100" value="Next" />
+            @Html.ValidationSummary("", new { @class = "text-danger control-label" })
+            <input type="submit" id="card-button" class="btn btn-info next col-12 w-100" value="Submit" />
         </div>
     </div>
+</fieldset>
+<fieldset class="field_wrapper" hidden>
+</fieldset>
 
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://js.stripe.com/v3/" type="text/javascript"></script>
+    @*<script type="text/javascript">
+            $(document).ready(function () {
+                var wrapper = $(".field_wrapper");
+                var next_button = $(".next");
+
+                var html =
+                `
+                    <div class="form-row">
+                        <div class="form-group col">
+                          <label for="CardNumber" class="control-label"><i class="fa fa-credit-card"></i> Card Number</label>
+                           @Html.TextBoxFor(x => x.CardNumber, new { @class= "form-control col-12", placeholder="Card Number" })
+                           @Html.ValidationMessageFor(x => x.CardNumber, null, new { @class = "text-danger control-label" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label class="control-label" for="ExpMonth"><i class="fa fa-calendar-day"></i> Expiry Month</label>
+                            @Html.EnumDropDownListFor(x => x.ExpMonth, "Month",new { @class= "form-control col-12", placeholder="Month"})
+                        </div>
+                        <div class="form-group col">
+                            <label for="ExpYear" class="control-label"><i class="fa fa-calendar-alt"></i> Expiry Year</label>
+                            @Html.TextBoxFor(x => x.ExpYear, new { @class= "form-control col-12", placeholder="Expiry Year" })
+                            @Html.ValidationMessageFor(x => x.ExpYear, null, new { @class = "text-danger control-label" })
+                        </div>
+                        <div class="form-group col">
+                            <label for="CardCvC" class="control-label"><i class="fa fa-user-secret"></i> Security Code</label>
+                            @Html.TextBoxFor(x => x.CardCvC, new { @class= "form-control col-12", placeholder= "CVC" })
+                            @Html.ValidationMessageFor(x => x.CardCvC, null, new { @class = "text-danger control-label" })
+                        </div>
+                            <div class="form-group col">
+                            <label for="CardName" class="control-label"><i class="fa fa-id-card"></i> Card Name</label>
+                            @Html.TextBoxFor(x => x.CardName, new { @class= "form-control col-12", placeholder= "Card Name" })
+                            @Html.ValidationMessageFor(x => x.CardName, null, new { @class = "text-danger control-label" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                    </div>
+                        @Html.ValidationSummary("", new { @class = "text-danger control-label" })
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <input type="button" class="previous btn btn-warning" value="Back">
+                            <input type="submit" class="btn btn-success ml-1" value="Register" />
+                        </div>
+                    </div>
+                `;
+                $(next_button).click(function (e) {
+                    $(".original_wrapper").attr("hidden", "true");
+                    $(wrapper).removeAttr("hidden");
+                    $(wrapper).append(html).fadeIn(2000);
+                });
+
+                $(wrapper).on("click", ".previous", function (e) { //user click on remove text
+                    e.preventDefault();
+                    $(wrapper).attr("hidden", "true");
+                    $(".original_wrapper").removeAttr("hidden");
+                    if ($(wrapper).children("div").length > 3) {
+                        $(wrapper).empty();
+                    }
+                })
+            });
+        </script>*@
 }

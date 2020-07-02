@@ -1,15 +1,13 @@
 ﻿@model OMS_Dev.Models.BulkRegister
 
-    <section>
-        <div class="row">
-            <h4 class="my-4">Step 3: Register Employees</h4>
-        </div>
-        <div class="progress row">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"></div>
-        </div>
-    </section>
-
-
+<section>
+    <div class="row">
+        <h4 class="my-4">Step 3: Register Employees</h4>
+    </div>
+    <div class="progress row">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"></div>
+    </div>
+</section>
 
 @using (Html.BeginForm("Register", "Employee", FormMethod.Post, new { @class = "my-1", role = "form" }))
 {
@@ -20,11 +18,11 @@
     <div class="users-to-register">
         <div class="userContainer row">
             <div class="form-group mx-1">
-                <label for="Email">Email</label>
-                <input id="Email" type="email" name="UserToRegister[0].Email" class="form-control" placeholder="Email" />
+                <label for="UserName"><i class="fa fa-user"></i> Username</label>
+                <input id="UserName" type="text" name="UserToRegister[0].UserName" class="form-control" placeholder="Username" />
             </div>
             <div class="form-group mx-1">
-                <label for="Password">Password</label>
+                <label for="Password"><i class="fa fa-lock"></i> Password</label>
                 <input id="Password" type="password" name="UserToRegister[0].Password" class="form-control" placeholder="Password" />
             </div>
         </div>
@@ -41,5 +39,33 @@
 
 @section scripts{
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/scripts.js")
+    <script type="text/javascript">
+        $('#add-user-button').click(function () {
+
+            var userContainer = $(".users-to-register");
+
+            // how many users are there already
+            var userContainerCount = $(userContainer).length;
+
+            // this count is used for the index for the next user container
+            var nextIndex = userContainerCount;
+
+            var html =
+                `<div class="userContainer row">` +
+                `<div class="form-group mx-1">` +
+                    `<label for="UsersToRegister[` + nextIndex + `].UserName"><i class="fa fa-user"></i> Username</label >` +
+                    `<input id="UsersToRegister[` + nextIndex + `].UserName" type="text" class="form-control" name="UsersToRegister[` + nextIndex + `].UserName" placeholder="Username"/>` +
+                `</div>` +
+                `<div class="form-group mx-1">` +
+                    `<label for="UsersToRegister[` + nextIndex + `].Password"><i class="fa fa-lock"></i> Password</label>` +
+                    `<input id="UsersToRegister[` + nextIndex + `].Password" type="password" class="form-control" name="UsersToRegister[` + nextIndex + `].Password" placeholder="Password" /> ` +
+                `</div>` +
+                `</div>`;
+       
+         
+            // append the html
+            $(userContainer).append(html);
+
+        });
+    </script>
 }

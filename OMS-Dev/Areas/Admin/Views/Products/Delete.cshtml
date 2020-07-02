@@ -1,0 +1,90 @@
+﻿@model OMS_Dev.Areas.Admin.Models.ProductDetailViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/Admin/Dashboard/Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="/Admin/Products/Index">Products</a></li>
+    <li class="breadcrumb-item active">@Html.DisplayFor(model => model.Id)</li>
+</ol>
+<div class="card">
+    <div class="card-header">
+        <i class="fa fa-trash text-danger"></i> Confirm Deletion for @Html.DisplayFor(model => model.Name)
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Id)
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Active)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Active)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Description)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.StatementDescriptor)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.StatementDescriptor)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Created)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Created)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Updated)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Updated)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                <input type="submit" class="btn btn-danger" value="Delete" />
+            </div>
+        }
+    </div>
+    <div class="card-footer">
+        <div class="row">
+            @Html.ActionLink("Back to List", "Index", new { area = "Admin" }, new { @class = "btn btn-secondary" })
+        </div>
+    </div>
+</div>

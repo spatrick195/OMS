@@ -15,8 +15,9 @@ namespace OMS_Dev.Entities
         public string Description { get; set; }
         public string Incorporation { get; set; }
         public int EmployeeCount { get; set; }
-        public Industry Industry { get; set; }
-        public ApplicationUser User { get; set; }
+        public int IndustryId { get; set; }
+        public virtual Industry Industry { get; set; }
+        public virtual ApplicationUser User { get; set; }
         public virtual ICollection<Employee> Employees { get; set; }
     }
 }

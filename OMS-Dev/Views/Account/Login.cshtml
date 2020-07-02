@@ -4,6 +4,12 @@
     ViewBag.Title = "Log in";
 }
 
+@if (User.Identity.IsAuthenticated)
+{
+    <h1 class="text-success">You are already logged in.</h1>
+}
+else
+{
     <div class="row my-3 p-3">
         <div class="col-md-6">
             <section id="loginForm">
@@ -44,9 +50,9 @@
                         @Html.ActionLink("Register as a new user", "Register")
                     </p>
                     @* Enable this once you have account confirmation enabled for password reset functionality
-                <p>
-                    @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                </p>*@
+                        <p>
+                            @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                        </p>*@
                 }
             </section>
         </div>
@@ -58,7 +64,7 @@
             </section>
         </div>
     </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
 }

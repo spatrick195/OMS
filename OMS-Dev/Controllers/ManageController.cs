@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OMS_Dev.Models;
+using Stripe.BillingPortal;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -96,6 +97,21 @@ namespace OMS_Dev.Controllers
                 message = ManageMessageId.Error;
             }
             return RedirectToAction("ManageLogins", new { Message = message });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ManageSubscriptions()
+        {
+            var id = User.Identity.GetUserId();
+            var user = UserManager.FindById(id);
+            var options = new SessionCreateOptions
+            {
+                Customer = user.StripeCustomerId,
+                ReturnUrl = "https://2339592bc4a0.ngrok.io/Account/Manage",
+            };
+            var service = new SessionService();
+            var portal = await service.CreateAsync(options);
+            return RedirectPermanent(portal.Url);
         }
 
         //
@@ -333,6 +349,7 @@ namespace OMS_Dev.Controllers
         }
 
         #region Helpers
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -383,6 +400,6 @@ namespace OMS_Dev.Controllers
             Error
         }
 
-        #endregion
+        #endregion Helpers
     }
 }

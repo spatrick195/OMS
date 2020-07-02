@@ -1,5 +1,5 @@
 ﻿/**
- * @license Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/license
  */
 
@@ -13,10 +13,10 @@
  * (1) https://ckeditor.com/cke4/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) https://ckeditor.com/cke4/builder/35de7552518187ea2037c0421a33756b
+ * (2) https://ckeditor.com/cke4/builder/e519b2bd1434ee51558d409eac9efe03
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) https://ckeditor.com/cke4/builder/download/35de7552518187ea2037c0421a33756b
+ * (3) https://ckeditor.com/cke4/builder/download/e519b2bd1434ee51558d409eac9efe03
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -25,7 +25,7 @@
  */
 
 var CKBUILDER_CONFIG = {
-	skin: 'office2013',
+	skin: 'moono-lisa',
 	preset: 'full',
 	ignore: [
 		'.DS_Store',
@@ -82,6 +82,7 @@ var CKBUILDER_CONFIG = {
 		'indentlist' : 1,
 		'justify' : 1,
 		'language' : 1,
+		'letterspacing' : 1,
 		'link' : 1,
 		'list' : 1,
 		'liststyle' : 1,
@@ -98,6 +99,7 @@ var CKBUILDER_CONFIG = {
 		'removeformat' : 1,
 		'resize' : 1,
 		'save' : 1,
+		'save-to-pdf' : 1,
 		'scayt' : 1,
 		'selectall' : 1,
 		'showblocks' : 1,

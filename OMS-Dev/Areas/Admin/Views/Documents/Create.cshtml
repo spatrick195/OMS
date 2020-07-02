@@ -1,0 +1,92 @@
+﻿@model OMS_Dev.Entities.Document
+
+@{
+    ViewBag.Title = "Create";
+}
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+
+<h1 class="my-4">Create Document</h1>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/Admin/Dashboard/Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="/Admin/Documents">Documents</a></li>
+    <li class="breadcrumb-item active">Create Document</li>
+</ol>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fa fa-dochub"></i> Create Document
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Create", "Documents", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-row">
+                <div class="form-group col">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group col">
+                    @Html.LabelFor(model => model.Thumbnail, htmlAttributes: new { @class = "control-label" })
+                    <p><img id="output" width="400" /></p>
+                    <input type="file" name="Thumbnail" accept="image/*" onchange="loadFile(event)" />
+                    <br />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col">
+                    @Html.LabelFor(model => model.Contents, htmlAttributes: new { @class = "control-label" })
+                    <div id="toolbar-container"></div>
+                    @Html.TextArea("Contents", new { id = "editor" })
+                    @Html.ValidationMessageFor(model => model.Contents, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col">
+                    @Html.LabelFor(model => model.Colour, htmlAttributes: new { @class = "control-label" })
+                    @Html.DropDownList("Active", new SelectList(new[] { new { Value = "blue", Text = "Blue" }, new { Value = "red", Text = "Red" }, new { Value = "green", Text = "Green" }, new { Value = "orange", Text = "Orange" } }, "Value", "Text", Model), new { @class = "form-control", required = "yes" })
+                </div>
+
+                <div class="form-group col">
+                    @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
+                    @Html.EnumDropDownListFor(model => model.Country, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <div class="col-md-offset-2">
+                        <input type="submit" value="Create" class="btn btn-info" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="card-footer">
+        @Html.ActionLink("Back to List", "Index", new { @class = "btn btn-secondary" })
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        CKEDITOR.replace('editor',
+            {
+                extraPlugins: 'save-to-pdf',
+                extraPlugins: 'button',
+                extraPlugins: 'listblock',
+                extraPlugins: 'floatpanel',
+                extraPlugins: 'richcombo',
+                extraPlugins: 'lineheight',
+                extraPlugins: 'sourcearea',
+                extraPlugins: 'dialogui',
+                pdfHandler: '/savetopdf/handle',
+
+            });
+    </script>
+}

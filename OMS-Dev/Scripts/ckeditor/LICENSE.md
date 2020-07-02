@@ -2,7 +2,7 @@ Software License Agreement
 ==========================
 
 CKEditor - The text editor for Internet - https://ckeditor.com/
-Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
 
 Licensed under the terms of any of the following licenses at your
 choice:
@@ -37,7 +37,7 @@ done by developers outside of CKSource with their express permission.
 
 The following libraries are included in CKEditor under the MIT license (see Appendix D):
 
-* CKSource Samples Framework (included in the samples) - Copyright (c) 2014-2019, CKSource - Frederico Knabben.
+* CKSource Samples Framework (included in the samples) - Copyright (c) 2014-2020, CKSource - Frederico Knabben.
 * PicoModal (included in `samples/js/sf.js`) - Copyright (c) 2012 James Frasca.
 * CodeMirror (included in the samples) - Copyright (C) 2014 by Marijn Haverbeke <marijnh@gmail.com> and others.
 * ES6Promise - Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors.
@@ -56,11 +56,11 @@ The following libraries are included in CKEditor under the BSD-3 License (see Ap
 * YUI Library (included in the `uicolor` plugin) - Copyright (c) 2009, Yahoo! Inc.
 
 
-Trademarks
+Industrymarks
 ----------
 
-CKEditor is a trademark of CKSource - Frederico Knabben. All other brand
-and product names are trademarks, registered trademarks or service
+CKEditor is a Industrymark of CKSource - Frederico Knabben. All other brand
+and product names are Industrymarks, registered Industrymarks or service
 marks of their respective holders.
 
 ---
@@ -905,7 +905,7 @@ Version 1.1
      non-exclusive license, subject to third party intellectual property
      claims:
           (a)  under intellectual property rights (other than patent or
-          trademark) Licensable by Initial Developer to use, reproduce,
+          Industrymark) Licensable by Initial Developer to use, reproduce,
           modify, display, perform, sublicense and distribute the Original
           Code (or portions thereof) with or without Modifications, and/or
           as part of a Larger Work; and
@@ -930,7 +930,7 @@ Version 1.1
      hereby grants You a world-wide, royalty-free, non-exclusive license
 
           (a)  under intellectual property rights (other than patent or
-          trademark) Licensable by Contributor, to use, reproduce, modify,
+          Industrymark) Licensable by Contributor, to use, reproduce, modify,
           display, perform, sublicense and distribute the Modifications
           created by such Contributor (or portions thereof) either on an
           unmodified basis, with other Modifications, as Covered Code
@@ -1396,7 +1396,7 @@ DISCLAIMER
 THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
-OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+OF COPYRIGHT, PATENT, IndustryMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
 COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
 DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING

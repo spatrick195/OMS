@@ -4,15 +4,16 @@ using OMS_Dev.Entities;
 using OMS_Dev.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace OMS_Dev.Controllers
 {
-    [Authorize]
     public class BusinessController : Controller
     {
         protected ApplicationDbContext db { get; set; }
@@ -57,43 +58,56 @@ namespace OMS_Dev.Controllers
         // POST: Business/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id, Title, Phone, Address, Description, Incorporation, Industry, User")] Business Business)
+        public async Task<ActionResult> Create([Bind(Include = "Id, Name, Phone, Address, Description, Incorporation, IndustryId, Industry, User")] Business model)
         {
-            try
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                var business = new Business
                 {
-                    var currentUser = UserManager.FindById(User.Identity.GetUserId());
-                    ViewBag.IndustryId = new SelectList(db.Industries, "Id", "Title");
-                    Business.User = currentUser;
-                    Business.User.UserName = currentUser.UserName;
-                    currentUser.Business = Business;
-                    db.Businesses.Add(Business);
-                    db.SaveChanges();
-                    return RedirectToAction("Register", "Employee");
+                    User = user,
+                    Name = model.Name,
+                    Industry = model.Industry,
+                    IndustryId = model.IndustryId,
+                    Address = model.Address,
+                    Incorporation = model.Incorporation,
+                    Description = model.Description,
+                    Phone = model.Phone,
+                    Employees = model.Employees,
+                    EmployeeCount = model.EmployeeCount // this needs an improvment - a method that counts users will be implemented at a later date.
+                };
+                user.Business = business;
+                db.Businesses.Add(business);
+                try
+                {
+                    await db.SaveChangesAsync();
+                    await UserManager.UpdateAsync(user);
                 }
-                return View();
+                catch (DBConcurrencyException ex)
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message + ex.InnerException);
+                    return View(model);
+                }
+                return RedirectToAction("Register", "Employee");
             }
-            catch (Exception)
-            {
-                return View();
-            }
-            // TODO: Add insert logic here
+
+            return View(model);
         }
 
         // GET: Business/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Business business = db.Businesses.Find(id);
+            Business business = await db.Businesses.FindAsync(id);
             if (business == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.IndustryId = new SelectList(db.Industries, "Id", "Title", business.Industry);
+            ViewBag.IndustryId = new SelectList(db.Industries, "Id", "Title", business.IndustryId);
             return View(business);
         }
 
@@ -110,7 +124,7 @@ namespace OMS_Dev.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                ViewBag.IndustryId = new SelectList(db.Industries, "Id", "Title", business.Industry);
+                ViewBag.IndustryId = new SelectList(db.Industries, "Id", "Title", business.IndustryId);
                 return View(business);
             }
             catch
@@ -131,7 +145,7 @@ namespace OMS_Dev.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.IndustryId = new SelectList(db.Industries, "Id", "Title", business.Industry);
+            ViewBag.IndustryId = new SelectList(db.Industries, "Id", "Title", business.IndustryId);
             return View(business);
         }
 

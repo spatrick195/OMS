@@ -8,9 +8,13 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using HtmlAgilityPack;
-using Fizzler.Systems.HtmlAgilityPack;
 using System;
+using static OMS_Dev.Helpers.Enums;
+using System.Collections.Generic;
+using Stripe;
+using System.Data.Entity.Infrastructure;
+using System.Runtime.CompilerServices;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace OMS_Dev.Controllers
 {
@@ -20,11 +24,12 @@ namespace OMS_Dev.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext _dbContext;
-
+        public RoleManager<IdentityRole> RoleManager { get; set; }
 
         public AccountController()
         {
             _dbContext = new ApplicationDbContext();
+            RoleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_dbContext));
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationDbContext dbContext)
@@ -36,8 +41,8 @@ namespace OMS_Dev.Controllers
 
         public ApplicationDbContext ApplicationDbContext
         {
-            get 
-            { 
+            get
+            {
                 return _dbContext ?? HttpContext.GetOwinContext().Get<ApplicationDbContext>();
             }
             private set
@@ -176,35 +181,53 @@ namespace OMS_Dev.Controllers
         {
             if (ModelState.IsValid)
             {
+                //var options = new CustomerCreateOptions
+                //{
+                //    Balance = 0,
+                //    Name = model.FirstName + " " + model.LastName,
+                //    Email = model.Email,
+                //    Source = "tok_visa",
+                //    Phone = model.PhoneNumber
+                //};
+                //var service = new CustomerService();
+                //var customer = await service.CreateAsync(options);
+
                 var user = new ApplicationUser
                 {
                     UserName = model.Email,
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    RegisteredOn = DateTime.Now
+                    PhoneNumber = model.PhoneNumber,
+                    PhoneNumberConfirmed = false,
+                    Address = model.Address,
+                    Address2 = model.Address2,
+                    Zip = model.Zip,
+                    City = model.City,
+                    Province = model.Province,
+                    RegisteredOn = DateTime.Now,
+                    //StripeCustomerId = customer.Id,
+                    //isSubscribed = false
                 };
-
                 var result = await UserManager.CreateAsync(user, model.Password);
-
+                var roleExists = RoleManager.RoleExists("Admin");
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync
-                        (
-                            user,
-                            isPersistent: false,
-                            rememberBrowser: false
-                        );
+                    if (!roleExists)
+                    {
+                        await RoleManager.CreateAsync(new IdentityRole("Admin"));
+                    }
+                    await UserManager.AddToRoleAsync(user.Id, "Admin");
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     return RedirectToAction("Create", "Business");
                 }
-
                 AddErrors(result);
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
+        [HttpGet]
+        [Authorize]
         public ActionResult BulkRegister()
         {
             return View();
@@ -219,7 +242,7 @@ namespace OMS_Dev.Controllers
             {
                 foreach (var u in model.UserToRegister)
                 {
-                    var user = new ApplicationUser { UserName = u.Email, Email = u.Email };
+                    var user = new ApplicationUser { UserName = u.UserName };
                     var result = await UserManager.CreateAsync(user, u.Password);
 
                     if (!result.Succeeded)
@@ -231,7 +254,7 @@ namespace OMS_Dev.Controllers
                 }
                 return RedirectToAction("Index", "Home");
             }
-            // if statement condition not met
+            // model not valid, refresh page.
             return View(model);
         }
 
@@ -485,7 +508,7 @@ namespace OMS_Dev.Controllers
                     _signInManager = null;
                 }
 
-                if(_dbContext != null)
+                if (_dbContext != null)
                 {
                     _dbContext.Dispose();
                     _dbContext = null;
@@ -553,6 +576,7 @@ namespace OMS_Dev.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
+
         #endregion Helpers
     }
 }

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<OMS_Dev.Areas.Admin.Models.ProductListViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1 class="mt-4">Products</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/Admin/Dashboard">Dashboard</a></li>
+    <li class="breadcrumb-item active">Products</li>
+</ol>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fa fa-table"></i> Products
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-bordered" id="data_wrapper" role="grid" cellspacing="0">
+                    <thead>
+                        <tr role="row">
+                            <th aria-label="Id: activate to sort column by ascending or descending">
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th aria-label="Name: activate to sort column by ascending or descending">
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th aria-label="Active Status: Activate to sort by ascending or descending">
+                                @Html.DisplayNameFor(model => model.Active)
+                            </th>
+                            <th aria-label="Description: Activate to sort by ascending or descending">
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th aria-label="Statement Descriptor: Activate to sort by ascending or descending">
+                                @Html.DisplayNameFor(model => model.StatementDescriptor)
+                            </th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr role="row">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Active)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StatementDescriptor)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { area = "Admin", id = item.Id }, new { @class = "btn btn-primary mx-auto my-auto" })
+                                    @Html.ActionLink("Details", "Details", new { area = "Admin", id = item.Id }, new { @class = "btn btn-info mx-auto my-auto" })
+                                    @Html.ActionLink("Delete", "Delete", new { area = "Admin", id = item.Id }, new { @class = "btn btn-dark mx-auto my-auto" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <p class="m-auto text-black-50">Last retrieved at @DateTime.Now</p>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#data_wrapper').DataTable({
+                ordering: true,
+                paging: false
+            });
+        });
+    </script>
+}

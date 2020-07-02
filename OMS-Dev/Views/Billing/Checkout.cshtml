@@ -1,0 +1,71 @@
+﻿@model OMS_Dev.Models.Billing.CreateSubscription
+
+@{
+    ViewBag.Title = "Checkout";
+}
+
+<h2>Checkout</h2>
+@using (Html.BeginForm("Checkout", "Billing", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card mb-4 box-shadow">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Pro</h4>
+        </div>
+        <div class="card-body">
+            <h1 class="card-title pricing-card-title">$30 per user<small class="text-muted">/ mo</small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+                <li>20 users included</li>
+                <li>Hundreds of legal documents</li>
+                <li>Priority email support</li>
+                <li>Help center access</li>
+            </ul>
+            <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal" data-target="#SubscribeForm">Get started</button>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" role="form" id="SubscribeForm" aria-labelledby="SubscribeForm" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="CardNumber" class="custom-control-label"><i class="fa fa-credit-card"></i> Card Number</label>
+                        @Html.TextBoxFor(m => m.CardNumber, new { @class = "form-control", placeholder = "16-Digit number on your card" })
+                        @Html.ValidationMessageFor(m => m.CardNumber, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col">
+                        <label for="ExpMonth" class="custom-control-label"><i class="fa fa-calendar"></i> Expiry Month</label>
+                        @Html.EnumDropDownListFor(m => m.ExpMonth, new { @class = "form-control", placeholder = "Expiry Month" })
+                        @Html.ValidationMessageFor(m => m.CardNumber, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col">
+                        <label for="ExpYear" class="custom-control-label"><i class="fa fa-calendar-alt"></i> Expiry Year</label>
+                        @Html.TextBoxFor(m => m.ExpYear, new { @class = "form-control", placeholder = "Expiry Year" })
+                        @Html.ValidationMessageFor(m => m.ExpYear, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col">
+                        <label for="CVC" class="custom-control-label"><i class="fa fa-cc-visa"></i> Security Code</label>
+                        @Html.TextBoxFor(m => m.CVC, new { @class = "form-control", placeholder = "Card Security Code" })
+                        @Html.ValidationMessageFor(m => m.CVC, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group col">
+                        <label for="CardHolder" class="custom-control-label"><i class="fa fa-legal"></i> Card Holder</label>
+                        @Html.TextBoxFor(m => m.Cardholder, new { @class = "form-control", placeholder = "Card holder name" })
+                        @Html.ValidationMessageFor(m => m.Cardholder, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-dark">Subscribe</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+}
+@section Scripts{
+    @Scripts.Render("~/Scripts/client.js") ;
+
+}

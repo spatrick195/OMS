@@ -4,22 +4,65 @@
         <name>OMS-Dev</name>
     </assembly>
     <members>
-        <member name="M:OMS_Dev.Controllers.BillingPlansController.SeedBillingPlans(PayPal.Api.APIContext)">
+        <member name="M:OMS_Dev.Controllers.SubscriptionsApiController.GetSubscriptions">
             <summary>
-            Create the billing plans
+            List subscriptions
             </summary>
+            <returns></returns>
         </member>
-        <member name="T:OMS_Dev.Extensions.IdentityExtensions">
+        <member name="M:OMS_Dev.Controllers.SubscriptionsApiController.GetSubscription(System.String)">
+            <summary>
+            Details of subscription matching the ID
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OMS_Dev.Controllers.SubscriptionsApiController.PutSubscription(System.String,OMS_Dev.Entities.Subscription)">
+            <summary>
+            Update Subscription
+            </summary>
+            <param name="id"></param>
+            <param name="subscription"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OMS_Dev.Controllers.SubscriptionsApiController.PostSubscription(OMS_Dev.Entities.Subscription)">
+            <summary>
+            Create subscription
+            </summary>
+            <param name="subscription"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OMS_Dev.Controllers.SubscriptionsApiController.DeleteSubscription(System.String)">
+            <summary>
+            Delete the subscription matching the ID
+            </summary>
+            <param name="id">Id of the subscription</param>
+            <returns></returns>
+        </member>
+        <member name="M:OMS_Dev.Controllers.SubscriptionsApiController.SubscriptionExists(System.String)">
+            <summary>
+            Check if the subscription exists
+            </summary>
+            <param name="id"></param>
+            <returns>True if the subscription exists, false if it does not</returns>
+        </member>
+        <member name="M:OMS_Dev.Controllers.SubscriptionsApiController.Dispose(System.Boolean)">
+            <summary>
+            Dispose DB
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="T:OMS_Dev.Helpers.IdentityExtensions">
             <summary>
             Extends the functionality of ASP.Net Identity Framework by returning custom user data.
             </summary>
         </member>
-        <member name="M:OMS_Dev.Extensions.IdentityExtensions.FirstName(System.Security.Principal.IIdentity)">
+        <member name="M:OMS_Dev.Helpers.IdentityExtensions.FirstName(System.Security.Principal.IIdentity)">
             <summary>
             Find the first name of a user and display it.
             </summary>
             <param name="identity"></param>
-            <returns>The first name of a user.</returns>
+            <returns>The first name of the currently logged in user.</returns>
         </member>
         <member name="T:OMS_Dev.Properties.Resources">
             <summary>
